@@ -1,0 +1,2 @@
+# datatable
+Laravel Tailwind DataTable
