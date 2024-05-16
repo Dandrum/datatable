@@ -1,0 +1,49 @@
+{
+    "name": "dandrum/datatable",
+    "description": "Laravel Tailwind DataTable",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Dandrum\\Datatable\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Dandrum\\Datatable\\Tests\\": "tests"
+        }
+    },
+    "authors": [
+        {
+            "name": "Daniel",
+            "email": "daniel.schmidt89@freenet.de"
+        }
+    ],
+    "scripts": {
+        "test": "vendor/bin/phpunit --colors=always",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
+        "format": "vendor/bin/pint"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Dandrum\\Datatable\\Providers\\DataTableServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": "^8.2|^8.3",
+        "illuminate/support": "^10|^11",
+        "livewire/livewire": "^3|dev-main",
+        "spatie/eloquent-sortable": "^4.3"
+    },
+    "require-dev": {
+        "laravel/pint": "^1",
+        "phpunit/phpunit": "^9|^10|^11"
+    }
+}
