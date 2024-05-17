@@ -34,6 +34,9 @@ abstract class DataTableComponent extends Component
 
     public function render(): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        return view('dataTable::datatable');
+        return view('dataTable::datatable', [
+            'columns' => $this->columns(),
+            'data' => $this->getData(),
+        ]);
     }
 }
