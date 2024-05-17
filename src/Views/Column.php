@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dandrum\Datatable\Views;
 
 use Illuminate\Support\Str;
