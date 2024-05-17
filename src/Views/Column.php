@@ -26,6 +26,9 @@ class Column
     // Is column searchable
     private bool $searchable = false;
 
+    // Is column sortable
+    private bool $sortable = false;
+
     public function __construct(string $title, ?string $field)
     {
         $this->title = trim($title);
@@ -46,12 +49,21 @@ class Column
     public function hidden(): self
     {
         $this->hidden = true;
+
         return $this;
     }
 
     public function searchable(): self
     {
         $this->searchable = true;
+
+        return $this;
+    }
+
+    public function sortable(): self
+    {
+        $this->sortable = true;
+
         return $this;
     }
 
@@ -84,5 +96,10 @@ class Column
     public function isSearchable(): bool
     {
         return $this->searchable;
+    }
+
+    public function isSortable(): bool
+    {
+        return $this->sortable;
     }
 }

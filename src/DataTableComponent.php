@@ -18,20 +18,12 @@ abstract class DataTableComponent extends Component
 
     abstract public function columns(): array;
 
-    public function getData(): Collection
+    private function getData(): Collection
     {
-//        $searchFields = [];
-//        foreach ($this->columns() as $c) {
-//            if ($c->isSearchable()) {
-//                $searchFields[] = $c->getField();
-//            }
-//        }
+        $query = $this->sort(app($this->model));
+        $query = $this->search($query);
 
-//        if (count($searchFields) > 0) {
-//            return $this->model::whereAny($searchFields, 'LIKE', '%' . $this->search . '%')
-//                ->get();
-//        }
-        return $this->model::get();
+        return $query->get();
     }
 
     public function render(): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View

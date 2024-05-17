@@ -4,29 +4,41 @@ declare(strict_types=1);
 
 namespace Dandrum\Datatable\Traits;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+
 trait Sort
 {
-    public function sortUp(int $id)
+    public $defaultOrder = ['id' => 'asc'];
+
+    public $sort = [];
+
+    public function changeSort(string $field): void
     {
-        $entry = $this->model::find($id);
-        $entry->moveOrderUp();
+        if (isset($this->sort[$field])) {
+            if ($this->sort[$field] === 'desc') {
+                unset($this->sort[$field]);
+            } else {
+                $this->sort[$field] = 'desc';
+            }
+        } else {
+            $this->sort[$field] = 'asc';
+        }
     }
 
-    public function sortDown(int $id)
+    private function sort(Builder|Model $query): Builder
     {
-        $entry = $this->model::find($id);
-        $entry->moveOrderDown();
-    }
+        if (count($this->sort) > 0) {
+            foreach ($this->sort as $field => $direction) {
+                $query = $query->orderBy($field, $direction);
+            }
+        } else {
+            $query = $this->model::orderBy(
+                key($this->defaultOrder),
+                $this->defaultOrder[key($this->defaultOrder)]
+            );
+        }
 
-    public function sortFirst(int $id)
-    {
-        $entry = $this->model::find($id);
-        $entry->moveToStart();
-    }
-
-    public function sortLast(int $id)
-    {
-        $entry = $this->model::find($id);
-        $entry->moveToEnd();
+        return $query;
     }
 }
