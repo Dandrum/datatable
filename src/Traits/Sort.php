@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Dandrum\Datatable\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
 trait Sort
 {
@@ -26,15 +25,24 @@ trait Sort
         }
     }
 
-    private function sort(Builder|Model $query): Builder
+    private function sort(Builder $query): Builder
     {
         if (count($this->sort) > 0) {
             foreach ($this->sort as $field => $direction) {
                 $query = $query->orderBy($field, $direction);
             }
         } else {
-            $query = $this->model::orderBy(
-                key($this->defaultOrder),
+            if (str_contains(key($this->defaultOrder), '.')) {
+                [$orderTable, $orderField] = explode('.', key($this->defaultOrder));
+
+                $sortField = $orderTable . '.' . $orderField;
+            } else {
+                $baseTableName = app($this->model)->getTable();
+
+                $sortField = $baseTableName . '.' . key($this->defaultOrder);
+            }
+            $query = $query->orderBy(
+                $sortField,
                 $this->defaultOrder[key($this->defaultOrder)]
             );
         }

@@ -6,25 +6,25 @@ namespace Dandrum\Datatable\Traits;
 
 trait ReOrder
 {
-    public function sortUp(int $id)
+    public function orderUp(int $id)
     {
         $entry = $this->model::find($id);
         $entry->moveOrderUp();
     }
 
-    public function sortDown(int $id)
+    public function orderDown(int $id)
     {
         $entry = $this->model::find($id);
         $entry->moveOrderDown();
     }
 
-    public function sortFirst(int $id)
+    public function orderFirst(int $id)
     {
         $entry = $this->model::find($id);
         $entry->moveToStart();
     }
 
-    public function sortLast(int $id)
+    public function OrderLast(int $id)
     {
         $entry = $this->model::find($id);
         $entry->moveToEnd();

@@ -29,6 +29,9 @@ class Column
     // Is column sortable
     private bool $sortable = false;
 
+    // Is column filterable
+    private bool $filterable = false;
+
     public function __construct(string $title, ?string $field)
     {
         $this->title = trim($title);
@@ -67,6 +70,13 @@ class Column
         return $this;
     }
 
+    public function filterable(): self
+    {
+        $this->filterable = true;
+
+        return $this;
+    }
+
     // GETTER
     public function getTitle(): string
     {
@@ -101,5 +111,10 @@ class Column
     public function isSortable(): bool
     {
         return $this->sortable;
+    }
+
+    public function isFilterable(): bool
+    {
+        return $this->filterable;
     }
 }

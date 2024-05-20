@@ -1,6 +1,6 @@
 @props(['column', 'value'])
 
-<div class="flex space-x-1 justify-around">
+<div class="flex space-x-1 align-content-center">
     @if($column->getViewRoute())
         @if($column->getViewPermissioN())
             @can($column->getViewPermissioN())

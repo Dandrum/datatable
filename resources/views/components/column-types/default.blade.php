@@ -1,7 +1,15 @@
 @props(['column', 'value'])
 
 @if($column->isSearchable())
-    {!! $this->highlight($value) !!}
+    @if(is_array($value))
+        {!! implode(', ', $value) !!}
+    @else
+        {!! $this->highlight($value) !!}
+    @endif
 @else
-    {{ $value }}
+    @if(is_array($value))
+        {!! implode(', ', $value) !!}
+    @else
+        {!! $value !!}
+    @endif
 @endif
