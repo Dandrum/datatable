@@ -8,7 +8,7 @@
     >
         <option value="-1">{{ $column->getTitle() }}</option>
         @foreach($this->getFilterOptions($column->getField()) as $option)
-            <option value="{{ $option }}">{!! ($option && $option !== '') ? ucfirst($option) : 'NULL' !!}</option>
+            <option value="{{ $option }}">{!! ($option && $option !== '') ? __(ucfirst($option)) : 'NULL' !!}</option>
         @endforeach
     </select>
 </div>

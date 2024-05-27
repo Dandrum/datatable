@@ -13,6 +13,8 @@ trait Filter
 
     public $activeFilter = [];
 
+    public $filterOptionsBy = [];
+
     public function updatingActiveFilter()
     {
         $this->resetPage();
@@ -30,9 +32,17 @@ trait Filter
                     $filterTable = app($this->model)->getTable();
                     $fieldName = $column->getField();
                 }
-                $this->filterOptions[$column->getField()] = DB::table($filterTable)
-                    ->select($filterTable . '.' . $fieldName)
-                    ->distinct()
+
+                $query = DB::table(mb_strtolower($filterTable))
+                    ->select(mb_strtolower($filterTable) . '.' . $fieldName)
+                    ->distinct();
+
+                if (count($this->filterOptionsBy) > 0 && count($this->activeFilter) > 0) {
+                    foreach ($this->filterOptionsBy as $fob) {
+                        $query->where(mb_strtolower($fob), '=', $this->activeFilter[$fob]);
+                    }
+                }
+                $this->filterOptions[$column->getField()] = $query
                     ->get()
                     ->pluck($fieldName)
                     ->toArray();
@@ -53,9 +63,10 @@ trait Filter
                 if ($value === '') {
                     $value = null;
                 }
-                $query = $query->where($field, $value);
+                $query = $query->where(mb_strtolower($field), $value);
             }
         }
+
         return $query;
     }
 
@@ -64,7 +75,6 @@ trait Filter
         if (isset($this->filterOptions[$field])) {
             return $this->filterOptions[$field];
         }
-
-        throw new \Exception("Filter option '$field' not found");
+        return [];
     }
 }

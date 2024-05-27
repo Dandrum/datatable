@@ -35,11 +35,11 @@ trait Sort
             if (str_contains(key($this->defaultOrder), '.')) {
                 [$orderTable, $orderField] = explode('.', key($this->defaultOrder));
 
-                $sortField = $orderTable . '.' . $orderField;
+                $sortField = $orderTable.'.'.$orderField;
             } else {
                 $baseTableName = app($this->model)->getTable();
 
-                $sortField = $baseTableName . '.' . key($this->defaultOrder);
+                $sortField = $baseTableName.'.'.key($this->defaultOrder);
             }
             $query = $query->orderBy(
                 $sortField,

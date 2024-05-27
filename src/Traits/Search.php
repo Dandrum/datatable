@@ -6,9 +6,11 @@ namespace Dandrum\Datatable\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Livewire\Attributes\Url;
 
 trait Search
 {
+    #[Url]
     public ?string $search = '';
 
     public function updatingSearch()
@@ -33,6 +35,7 @@ trait Search
                 $searchableColumns[] = $c->getTitle();
             }
         }
+
         return $searchableColumns;
     }
 
@@ -41,7 +44,7 @@ trait Search
         $searchFields = [];
         foreach ($this->columns() as $c) {
             if ($c->isSearchable()) {
-                $searchFields[] = $c->getField();
+                $searchFields[] = mb_strtolower($c->getField());
             }
         }
 
@@ -49,6 +52,7 @@ trait Search
         if (count($searchFields) > 0 && $this->search !== '') {
             $query = $query->whereAny($searchFields, 'LIKE', '%' . $this->search . '%');
         }
+
         return $query;
     }
 }
