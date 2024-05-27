@@ -5,7 +5,7 @@
         <i class="fa-solid fa-arrow-down"></i>
     </button>
     <div>
-        {{$data[$column->getField()]}}
+        {{$this->getFieldData($column->getField(), $data)}}
     </div>
     <button wire:click="orderUp({{$data->id}})" class="cursor-pointer">
         <i class="fa-solid fa-arrow-up"></i>

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Dandrum\Datatable;
 
 use Dandrum\Datatable\Traits\Filter;
+use Dandrum\Datatable\Traits\GlobalFilter;
 use Dandrum\Datatable\Traits\Joins;
 use Dandrum\Datatable\Traits\Paging;
 use Dandrum\Datatable\Traits\ReOrder;
@@ -20,6 +21,7 @@ abstract class DataTableComponent extends Component
     use Joins;
     use Paging;
     use Filter;
+    use GlobalFilter;
     use Search;
     use Sort;
     use ReOrder;
@@ -33,13 +35,10 @@ abstract class DataTableComponent extends Component
     protected function queryString(): array
     {
         return [
-            'search' => ['as' => 'search']
+            'search' => ['as' => 'search'],
+            'sort' => ['as' => 'sort'],
+            'activeFilter' => ['as' => 'filter'],
         ];
-    }
-
-    public function boot(): void
-    {
-        $this->generateFilterOptions();
     }
 
     private function getData(): Collection|\Illuminate\Pagination\LengthAwarePaginator
@@ -58,6 +57,7 @@ abstract class DataTableComponent extends Component
 
     public function render(): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
+        $this->generateFilterOptions();
         return view('dataTable::datatable', [
             'columns' => $this->columns(),
             'data' => $this->getData(),
@@ -74,6 +74,7 @@ abstract class DataTableComponent extends Component
                 if ($data[$subFieldName] instanceof \UnitEnum) {
                     return $data[$subFieldName]->name ?? '';
                 }
+
                 return $model[$subFieldName] ?? '';
             }
             if ($model instanceof Collection) {
@@ -88,6 +89,7 @@ abstract class DataTableComponent extends Component
         if ($data[$field] instanceof \UnitEnum) {
             return $data[$field]->name ?? '';
         }
+
         return $data[$field] ?? '';
     }
 }

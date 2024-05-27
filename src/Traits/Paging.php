@@ -11,5 +11,6 @@ trait Paging
     use WithPagination;
 
     public $disablePagination = false;
+
     public $pageSize = 20;
 }

@@ -4,12 +4,12 @@
     @if(is_array($value))
         {!! implode(', ', $value) !!}
     @else
-        {!! $this->highlight($value) !!}
+        {!! __($this->highlight($value)) !!}
     @endif
 @else
     @if(is_array($value))
         {!! implode(', ', $value) !!}
     @else
-        {!! $value !!}
+        {!! __($value) !!}
     @endif
 @endif
