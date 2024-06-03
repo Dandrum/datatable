@@ -1,11 +1,13 @@
+@props(['column', 'data'])
+
 <div class="flex gap-1">
-    <div wire:click="sortDown({{$row->id}})" class="cursor-pointer">
+    <button wire:click="orderDown({{$data->id}})" class="cursor-pointer">
         <i class="fa-solid fa-arrow-down"></i>
-    </div>
+    </button>
     <div>
-        {{$value}}
+        {{$this->getFieldData($column->getField(), $data)}}
     </div>
-    <div wire:click="sortUp({{$row->id}})" class="cursor-pointer">
+    <button wire:click="orderUp({{$data->id}})" class="cursor-pointer">
         <i class="fa-solid fa-arrow-up"></i>
-    </div>
+    </button>
 </div>

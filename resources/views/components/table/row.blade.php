@@ -3,27 +3,53 @@
 <tr>
     @foreach($columns as $column)
         @if(!$column->isHidden())
-            @switch($column->getType())
-                @case(1)
-                    test
-                    @break
-                @default
-                    <td class="whitespace-nowrap px-5 py-3 text-left text-sm text-gray-500">
-                        {{ $data[$column->getField()] }}
-                    </td>
-            @endswitch
+            <td class="whitespace-nowrap px-2 py-2 text-left text-sm text-gray-500"
+                wire:key="item-{{$data->id}}">
+                @switch($column->getType())
+                    @case('badge')
+                        <x-dataTable::column-types.badges :column="$column" :data="$data"/>
+                        @break
+                    @case('link')
+                        <x-dataTable::column-types.link :column="$column" :data="$data"/>
+                        @break
+                    @case('flag')
+                        <x-dataTable::column-types.flag :column="$column" :data="$data"/>
+                        @break
+                    @case('role')
+                        <x-dataTable::column-types.role :column="$column" :data="$data"/>
+                        @break
+                    @case('copy')
+                        <x-dataTable::column-types.copy :column="$column" :data="$data"/>
+                        @break
+                    @case('json')
+                        <x-dataTable::column-types.json :column="$column" :data="$data"/>
+                        @break
+                    @case('currency')
+                        <x-dataTable::column-types.currency :column="$column" :data="$data"/>
+                        @break
+                    @case('order')
+                        <x-dataTable::column-types.sortable :column="$column" :data="$data"/>
+                        @break
+                    @case('date')
+                        <x-dataTable::column-types.date :column="$column"
+                                                        :value="$this->getFieldData($column->getField(), $data)"/>
+                        @break
+                    @case('boolean')
+                        <x-dataTable::column-types.boolean :status="$this->getFieldData($column->getField(), $data)"/>
+                        @break
+                    @case('image')
+                        <x-dataTable::column-types.image :column="$column"
+                                                         :value="$this->getFieldData($column->getField(), $data)"/>
+                        @break
+                    @case('actions')
+                        <x-dataTable::column-types.actions :column="$column"
+                                                           :value="$this->getFieldData($column->getField(), $data)"/>
+                        @break
+                    @default
+                        <x-dataTable::column-types.default :column="$column"
+                                                           :value="$this->getFieldData($column->getField(), $data)"/>
+                @endswitch
+            </td>
         @endif
     @endforeach
-
-
-    {{--    <td class="relative whitespace-nowrap py-2 pr-4 pl-3 text-right text-sm font-medium sm:pr-0">--}}
-    {{--                   <span class="isolate inline-flex rounded-md shadow-sm">--}}
-    {{--                      <button type="button"--}}
-    {{--                              class="relative inline-flex items-center rounded-l-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10">Years</button>--}}
-    {{--                      <button type="button"--}}
-    {{--                              class="relative -ml-px inline-flex items-center bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10">Months</button>--}}
-    {{--                      <button type="button"--}}
-    {{--                              class="relative -ml-px inline-flex items-center rounded-r-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10">Days</button>--}}
-    {{--                    </span>--}}
-    {{--    </td>--}}
 </tr>
