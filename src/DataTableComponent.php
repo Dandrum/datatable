@@ -41,7 +41,7 @@ abstract class DataTableComponent extends Component
         ];
     }
 
-    private function getData(): Collection|\Illuminate\Pagination\LengthAwarePaginator
+    private function getData(): \Illuminate\Contracts\Pagination\LengthAwarePaginator | \Illuminate\Database\Eloquent\Collection
     {
         $query = app($this->model)::query();
         $query = $this->joinTables($query);
