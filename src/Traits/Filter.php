@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Dandrum\Datatable\Traits;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
 trait Filter
@@ -14,6 +13,8 @@ trait Filter
     public array $activeFilter = [];
 
     public array $filterOptionsBy = [];
+
+    public array $filterNullable = [];
 
     public function updatingActiveFilter(): void
     {
@@ -50,7 +51,7 @@ trait Filter
         }
     }
 
-    private function filter(Builder $query): Builder
+    private function filter($query)
     {
         foreach ($this->activeFilter as $field => $value) {
             if (is_array($value)) {
@@ -59,11 +60,16 @@ trait Filter
             } else {
                 $field = app($this->model)->getTable() . '.' . $field;
             }
-            if (!($value === '-1')) {
+            if ($value !== '-1') {
                 if ($value === '') {
                     $value = null;
                 }
                 $query = $query->where(mb_strtolower($field), $value);
+
+                $fieldWithoutTable = explode('.', $field)[1];
+                if(in_array($fieldWithoutTable, $this->filterNullable, true)) {
+                    $query = $query->orWhereNull($field);
+                }
             }
         }
 

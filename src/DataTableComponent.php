@@ -86,6 +86,7 @@ abstract class DataTableComponent extends Component
                 return $collectionValues;
             }
         }
+        
         if ($data[$field] instanceof \UnitEnum) {
             return $data[$field]->name ?? '';
         }
