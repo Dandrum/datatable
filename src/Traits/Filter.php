@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\DB;
 
 trait Filter
 {
-    private $filterOptions = [];
+    private array $filterOptions = [];
 
-    public $activeFilter = [];
+    public array $activeFilter = [];
 
-    public $filterOptionsBy = [];
+    public array $filterOptionsBy = [];
 
-    public function updatingActiveFilter()
+    public function updatingActiveFilter(): void
     {
         $this->resetPage();
     }
@@ -54,7 +54,7 @@ trait Filter
     {
         foreach ($this->activeFilter as $field => $value) {
             if (is_array($value)) {
-                $field = $field . '.' . key($value);
+                $field .= '.' . key($value);
                 $value = $value[key($value)];
             } else {
                 $field = app($this->model)->getTable() . '.' . $field;
