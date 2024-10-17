@@ -6,5 +6,5 @@ namespace Dandrum\Datatable\Traits;
 
 trait GlobalFilter
 {
-    public $globalFilters = [];
+    public array $globalFilters = [];
 }
