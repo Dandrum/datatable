@@ -4,8 +4,8 @@
             <div style="width: 300px">
                 @foreach($globalFilters as $filter)
                     <select
-                        name="{{ $filter }}"
-                        wire:model.live="{{ $filter }}"
+                        name="activeFilter.{{ $filter }}"
+                        wire:model.live="activeFilter.{{ $filter }}"
                         class="block w-full mb-3 border-0 py-0 pr-5 pl-3 text-gray-900 ring-1 ring-inset ring-gray-300 text-uppercase focus:ring-1 focus:ring-red-600 sm:text-sm sm:leading-6"
                     >
                         @foreach($this->getGlobalFilterOptions($filter) as $name => $id)

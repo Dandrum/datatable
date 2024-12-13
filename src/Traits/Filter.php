@@ -44,6 +44,7 @@ trait Filter
                     }
                 }
                 $this->filterOptions[$column->getField()] = $query
+                    ->orderBy(mb_strtolower($filterTable) . '.' . $fieldName, 'ASC')
                     ->get()
                     ->pluck($fieldName)
                     ->toArray();

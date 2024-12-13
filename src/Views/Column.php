@@ -32,6 +32,9 @@ class Column
     // Is column filterable
     private bool $filterable = false;
 
+    // Field is function
+    private bool $fieldIsFunction = false;
+
     public function __construct(string $title, ?string $field)
     {
         $this->title = trim($title);
@@ -77,6 +80,13 @@ class Column
         return $this;
     }
 
+    public function fieldIsFunction(): self
+    {
+        $this->fieldIsFunction = true;
+
+        return $this;
+    }
+
     // GETTER
     public function getTitle(): string
     {
@@ -116,5 +126,10 @@ class Column
     public function isFilterable(): bool
     {
         return $this->filterable;
+    }
+
+    public function isFunction(): bool
+    {
+        return $this->fieldIsFunction;
     }
 }
