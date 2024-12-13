@@ -3,7 +3,7 @@
 <tr>
     @foreach($columns as $column)
         @if(!$column->isHidden())
-            <td class="whitespace-nowrap px-2 py-2 text-left text-sm text-gray-500"
+            <td class="whitespace-wrap px-2 py-2 text-left text-sm text-gray-500"
                 wire:key="item-{{$data->id}}">
                 @switch($column->getType())
                     @case('badge')
