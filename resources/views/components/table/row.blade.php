@@ -33,6 +33,9 @@
                     @case('counter')
                         <x-dataTable::column-types.counter :column="$column" :data="$data"/>
                         @break
+                    @case('function')
+                        <x-dataTable::column-types.function :column="$column" :data="$data"/>
+                        @break
                     @case('date')
                         <x-dataTable::column-types.date :column="$column"
                                                         :value="$this->getFieldData($column->getField(), $data)"/>
