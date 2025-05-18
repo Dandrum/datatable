@@ -11,6 +11,10 @@ class CounterColumn extends Column
     // Type of Column
     protected ?string $type = 'counter';
 
+    public static function make(string $title, ?string $field = null): CounterColumn
+    {
+        return new static($title, $field);
+    }
     public function searchable(): self
     {
         throw new NotPossibleException('Cannot search column');

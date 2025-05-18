@@ -6,6 +6,9 @@
             <td class="whitespace-wrap px-2 py-2 text-left text-sm text-gray-500"
                 wire:key="item-{{$data->id}}">
                 @switch($column->getType())
+                    @case('customValue')
+                        <x-dataTable::column-types.customValue :column="$column"/>
+                        @break
                     @case('badge')
                         <x-dataTable::column-types.badges :column="$column" :data="$data"/>
                         @break
