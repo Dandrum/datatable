@@ -17,6 +17,11 @@ class ImageColumn extends Column
 
     private string $fit = 'contain';
 
+    public static function make(string $title, ?string $field = null): ImageColumn
+    {
+        return new static($title, $field);
+    }
+
     public function width(int $width): self
     {
         $this->width = $width.'px';
