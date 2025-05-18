@@ -41,7 +41,7 @@ abstract class DataTableComponent extends Component
         ];
     }
 
-    private function getData(): \Illuminate\Contracts\Pagination\LengthAwarePaginator | \Illuminate\Database\Eloquent\Collection
+    private function getData(): \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Collection
     {
         $query = app($this->model)::query();
         $query = $this->joinTables($query);
@@ -52,12 +52,14 @@ abstract class DataTableComponent extends Component
         if ($this->disablePagination) {
             return $query->get();
         }
+
         return $query->paginate($this->pageSize);
     }
 
     public function render(): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $this->generateFilterOptions();
+
         return view('dataTable::datatable', [
             'columns' => $this->columns(),
             'data' => $this->getData(),
@@ -86,7 +88,7 @@ abstract class DataTableComponent extends Component
                 return $collectionValues;
             }
         }
-        
+
         if ($data[$field] instanceof \UnitEnum) {
             return $data[$field]->name ?? '';
         }

@@ -35,7 +35,7 @@ trait Filter
                 }
 
                 $query = DB::table(mb_strtolower($filterTable))
-                    ->select(mb_strtolower($filterTable) . '.' . $fieldName)
+                    ->select(mb_strtolower($filterTable).'.'.$fieldName)
                     ->distinct();
 
                 if (count($this->filterOptionsBy) > 0 && count($this->activeFilter) > 0) {
@@ -44,7 +44,7 @@ trait Filter
                     }
                 }
                 $this->filterOptions[$column->getField()] = $query
-                    ->orderBy(mb_strtolower($filterTable) . '.' . $fieldName, 'ASC')
+                    ->orderBy(mb_strtolower($filterTable).'.'.$fieldName, 'ASC')
                     ->get()
                     ->pluck($fieldName)
                     ->toArray();
@@ -56,10 +56,10 @@ trait Filter
     {
         foreach ($this->activeFilter as $field => $value) {
             if (is_array($value)) {
-                $field .= '.' . key($value);
+                $field .= '.'.key($value);
                 $value = $value[key($value)];
             } else {
-                $field = app($this->model)->getTable() . '.' . $field;
+                $field = app($this->model)->getTable().'.'.$field;
             }
             if ($value !== '-1') {
                 if ($value === '') {
@@ -68,7 +68,7 @@ trait Filter
                 $query = $query->where(mb_strtolower($field), $value);
 
                 $fieldWithoutTable = explode('.', $field)[1];
-                if(in_array($fieldWithoutTable, $this->filterNullable, true)) {
+                if (in_array($fieldWithoutTable, $this->filterNullable, true)) {
                     $query = $query->orWhereNull($field);
                 }
             }
@@ -82,6 +82,7 @@ trait Filter
         if (isset($this->filterOptions[$field])) {
             return $this->filterOptions[$field];
         }
+
         return [];
     }
 }

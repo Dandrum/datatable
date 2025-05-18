@@ -10,7 +10,7 @@ trait Joins
 {
     private function joinTables(Builder $query): Builder
     {
-        $query->select(app($this->model)->getTable() . '.*');
+        $query->select(app($this->model)->getTable().'.*');
         foreach ($this->joins as $join) {
             $query = $query->leftJoin(
                 $join[0],

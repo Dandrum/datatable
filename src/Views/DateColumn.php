@@ -13,6 +13,11 @@ class DateColumn extends Column
 
     private string $format = 'Y-m-d';
 
+    public static function make(string $title, ?string $field = null): DateColumn
+    {
+        return new static($title, $field);
+    }
+
     public function outputFormat(string $format): self
     {
         $this->format = $format;

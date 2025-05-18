@@ -22,6 +22,11 @@ class ActionColumn extends Column
 
     private ?string $deletePermission;
 
+    public static function make(string $title, ?string $field = null): ActionColumn
+    {
+        return new static($title, $field);
+    }
+
     public function viewRoute(string $route, ?string $permission): self
     {
         $this->viewRoute = $route;

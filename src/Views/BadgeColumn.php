@@ -13,6 +13,11 @@ class BadgeColumn extends Column
 
     private array $colors = [];
 
+    public static function make(string $title, ?string $field = null): BadgeColumn
+    {
+        return new static($title, $field);
+    }
+
     public function searchable(): self
     {
         throw new NotPossibleException('Cannot search date column');
@@ -21,6 +26,7 @@ class BadgeColumn extends Column
     public function colors(array $colors): self
     {
         $this->colors = $colors;
+
         return $this;
     }
 

@@ -21,7 +21,7 @@ trait Search
     public function highlight($text): string
     {
         // Erzeugen Sie das hervorgehobene Wort mit HTML-Tag
-        $highlighted = '<span style="color: red;font-weight: bold">' . $this->search . '</span>';
+        $highlighted = '<span style="color: red;font-weight: bold">'.$this->search.'</span>';
 
         // Ersetzen Sie das Wort im Text durch das hervorgehobene Wort (unabhängig von Groß- und Kleinschreibung)
         return str_ireplace($this->search, $highlighted, $text);
@@ -50,7 +50,7 @@ trait Search
 
         // Searchable
         if (count($searchFields) > 0 && $this->search !== '') {
-            $query = $query->whereAny($searchFields, 'LIKE', '%' . $this->search . '%');
+            $query = $query->whereAny($searchFields, 'LIKE', '%'.$this->search.'%');
         }
 
         return $query;

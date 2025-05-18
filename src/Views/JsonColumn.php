@@ -11,6 +11,11 @@ class JsonColumn extends Column
     // Type of Column
     protected ?string $type = 'json';
 
+    public static function make(string $title, ?string $field = null): JsonColumn
+    {
+        return new static($title, $field);
+    }
+
     public function searchable(): self
     {
         throw new NotPossibleException('Cannot search date column');

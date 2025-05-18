@@ -13,6 +13,11 @@ class LinkColumn extends Column
 
     private array $route = ['route' => null, 'id' => null];
 
+    public static function make(string $title, ?string $field = null): LinkColumn
+    {
+        return new static($title, $field);
+    }
+
     public function link(array $href, string $target = '_blank'): self
     {
         $this->route = $href;

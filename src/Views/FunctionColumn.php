@@ -11,6 +11,11 @@ class FunctionColumn extends Column
     // Type of Column
     protected ?string $type = 'function';
 
+    public static function make(string $title, ?string $field = null): FunctionColumn
+    {
+        return new static($title, $field);
+    }
+
     public function searchable(): self
     {
         throw new NotPossibleException('Cannot search column');

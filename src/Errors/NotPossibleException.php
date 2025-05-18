@@ -2,6 +2,4 @@
 
 namespace Dandrum\Datatable\Errors;
 
-class NotPossibleException extends \Exception
-{
-}
+class NotPossibleException extends \Exception {}
