@@ -12,6 +12,8 @@ trait Filter
 
     public array $activeFilter = [];
 
+    public $preFilter = [];
+
     public array $filterOptionsBy = [];
 
     public array $filterNullable = [];
@@ -54,6 +56,16 @@ trait Filter
 
     private function filter($query)
     {
+        if(count($this->preFilter)){
+            foreach ($this->preFilter as $filter){
+                $field = $filter['field'];
+                $operator = $filter['operator'] ?? '=';
+                $value = $filter['value'];
+
+                $query->where($field, $operator, $value);
+            }
+        }
+
         foreach ($this->activeFilter as $field => $value) {
             if (is_array($value)) {
                 $field .= '.' . key($value);

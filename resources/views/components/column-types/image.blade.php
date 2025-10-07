@@ -11,7 +11,11 @@
             $img = $value;
         }
     }else{
-        $img = 'data:' . Storage::mimeType($value) . ';base64,' . base64_encode(Storage::get($value));
+        if($column->getBaseUrl() !== ''){
+           $img = 'data:' . Storage::mimeType($column->getBaseUrl() . $value) . ';base64,' . base64_encode(Storage::get($column->getBaseUrl() . $value));
+        }else{
+           $img = 'data:' . Storage::mimeType($value) . ';base64,' . base64_encode(Storage::get($value));
+        }
     }
 @endphp
 <div>
