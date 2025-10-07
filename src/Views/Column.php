@@ -90,7 +90,7 @@ class Column
     // GETTER
     public function getTitle(): string
     {
-        return $this->title;
+        return __($this->title);
     }
 
     public function getField(): ?string
