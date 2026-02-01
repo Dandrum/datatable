@@ -44,13 +44,17 @@ trait Search
         $searchFields = [];
         foreach ($this->columns() as $c) {
             if ($c->isSearchable()) {
-                $searchFields[] = mb_strtolower($c->getField());
+                $searchFields[] = $c->getField();
             }
         }
 
         // Searchable
         if (count($searchFields) > 0 && $this->search !== '') {
-            $query = $query->whereAny($searchFields, 'LIKE', '%' . $this->search . '%');
+            $query = $query->where(function ($q) use ($searchFields) {
+                foreach ($searchFields as $field) {
+                    $q->orWhereRaw('LOWER(' . $field . ') LIKE ?', ['%' . mb_strtolower($this->search) . '%']);
+                }
+            });
         }
 
         return $query;
