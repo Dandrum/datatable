@@ -11,10 +11,13 @@
             $img = $value;
         }
     }else{
-        if($column->getBaseUrl() !== ''){
-           $img = 'data:' . Storage::mimeType($column->getBaseUrl() . $value) . ';base64,' . base64_encode(Storage::get($column->getBaseUrl() . $value));
-        }else{
-           $img = 'data:' . Storage::mimeType($value) . ';base64,' . base64_encode(Storage::get($value));
+        $storagePath = $column->getBaseUrl() !== '' ? $column->getBaseUrl() . $value : $value;
+        if ($storagePath && Storage::exists($storagePath)) {
+            $mimeType    = Storage::mimeType($storagePath) ?: 'image/jpeg';
+            $fileContent = Storage::get($storagePath);
+            if ($fileContent) {
+                $img = 'data:' . $mimeType . ';base64,' . base64_encode($fileContent);
+            }
         }
     }
 @endphp
