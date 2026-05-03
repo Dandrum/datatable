@@ -67,30 +67,58 @@ abstract class DataTableComponent extends Component
     public function getFieldData(string $field, $data)
     {
         if (str_contains($field, '.')) {
-            [$tableName, $subFieldName] = explode('.', $field);
-
-            $model = $data[Str::singular($tableName)] ?? $data[$tableName];
-            if ($model instanceof Model) {
-                if ($data[$subFieldName] instanceof \UnitEnum) {
-                    return $data[$subFieldName]->name ?? '';
-                }
-
-                return $model[$subFieldName] ?? '';
-            }
-            if ($model instanceof Collection) {
-                $collectionValues = [];
-                foreach ($model as $entry) {
-                    $collectionValues[] = $entry[$subFieldName] ?? '';
-                }
-
-                return $collectionValues;
-            }
+            $segments = explode('.', $field);
+            return $this->resolveNestedField($segments, $data);
         }
-        
+
         if ($data[$field] instanceof \UnitEnum) {
             return $data[$field]->name ?? '';
         }
 
         return $data[$field] ?? '';
+    }
+
+    private function resolveNestedField(array $segments, $data): mixed
+    {
+        $key = array_shift($segments);
+
+        // Try singular and original key
+        $value = null;
+        if ($data instanceof Model || is_array($data) || $data instanceof \ArrayAccess) {
+            $value = $data[Str::singular($key)] ?? $data[$key] ?? null;
+        }
+
+        if ($value === null) {
+            return '';
+        }
+
+        // No more segments → return the value
+        if (empty($segments)) {
+            if ($value instanceof \UnitEnum) {
+                return $value->name ?? '';
+            }
+            return $value ?? '';
+        }
+
+        // Recurse into a Collection: resolve for each entry and flatten one level
+        if ($value instanceof Collection) {
+            $results = [];
+            foreach ($value as $entry) {
+                $resolved = $this->resolveNestedField($segments, $entry);
+                if (is_array($resolved)) {
+                    array_push($results, ...$resolved);
+                } else {
+                    $results[] = $resolved;
+                }
+            }
+            return $results;
+        }
+
+        // Recurse into a nested Model / array
+        if ($value instanceof Model || is_array($value) || $value instanceof \ArrayAccess) {
+            return $this->resolveNestedField($segments, $value);
+        }
+
+        return '';
     }
 }
