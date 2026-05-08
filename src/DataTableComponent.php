@@ -82,10 +82,22 @@ abstract class DataTableComponent extends Component
     {
         $key = array_shift($segments);
 
-        // Try singular and original key
+        // Try all key variants: original, singular, camelCase, camelCase singular
         $value = null;
         if ($data instanceof Model || is_array($data) || $data instanceof \ArrayAccess) {
-            $value = $data[Str::singular($key)] ?? $data[$key] ?? null;
+            $candidates = array_unique([
+                $key,
+                Str::singular($key),
+                Str::camel($key),
+                Str::camel(Str::singular($key)),
+            ]);
+            foreach ($candidates as $candidate) {
+                $val = $data[$candidate] ?? null;
+                if ($val !== null) {
+                    $value = $val;
+                    break;
+                }
+            }
         }
 
         if ($value === null) {
