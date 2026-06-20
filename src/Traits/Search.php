@@ -6,6 +6,7 @@ namespace Dandrum\Datatable\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Url;
 
 trait Search
@@ -49,10 +50,15 @@ trait Search
         }
 
         // Searchable
-        if (count($searchFields) > 0 && $this->search !== '') {
-            $query = $query->where(function ($q) use ($searchFields) {
+        $searchString = Str::of($this->search ?? '')
+            ->trim()
+            ->lower()
+            ->toString();
+
+        if ($searchString !== '' && count($searchFields) > 0) {
+            $query = $query->where(function ($q) use ($searchFields, $searchString) {
                 foreach ($searchFields as $field) {
-                    $q->orWhereRaw('LOWER(' . $field . ') LIKE ?', ['%' . mb_strtolower($this->search) . '%']);
+                    $q->orWhereRaw('LOWER(' . $field . ') LIKE ?', ['%' . $searchString . '%']);
                 }
             });
         }
